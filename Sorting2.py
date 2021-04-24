@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Create a Dataframe
-df = pd.DataFrame({'Algoritms':["Bubble Sort","Selection Sort","Insertion Sort"]},index:=None)
+df = pd.DataFrame({'Algoritms':["Bubble Sort","Selection Sort","Insertion Sort","Quick Sort","Merge Sort"]},index:=None)
 
-samples = [100,200,500,1000,2000] #create an array with different sample sizes
+samples = [100,200,500,1000,5000] #create an array with different sample sizes
 
 def random_array(n):
     array = []
@@ -66,6 +66,50 @@ def insertion_sort(insertionarr):
                                             # # increase the index previous position by 1 again in the array and write actual value of the 
                                             # arr[indexelement] into it = the keyvalue
 
+# Quick Sort
+def quick_sort(quickarr):
+    if not quickarr:
+        return []
+    return (quick_sort([x for x in quickarr[1:] if x < quickarr[0]])) + [quickarr[0]] + quick_sort([x for x in quickarr[1:] if x > quickarr[0]])
+
+
+# Merger sort
+# found this code on https://www.geeksforgeeks.org/merge-sort/ and adopted this
+
+def merge_sort(mergearr):
+    if len(mergearr)>1:
+        mid = len(mergearr)//2 # Finding the mid of the array
+        left = mergearr[:mid] # Dividing the array elements into left from middle
+        right = mergearr[mid:] # Dividing the array elements into right from middle
+        merge_sort(left) # Sorting the left half
+        merge_sort(right) # Sorting the right half
+        i = j = k = 0 # set the array index i,j,k to 0
+
+        while i < len(left) and j < len(right):# Copy data to temp arrays left[] and right[]
+            if left[i] < right[j]:
+                mergearr[k] = left[i]
+                i = i + 1 # increment the index i for the left side
+            else:
+                mergearr[k] = right[j]
+                j = j + 1 # increment the index j for the right side
+            k = k + 1 # increment the index k for the mergearr
+
+        while i < len(left): # Checking if any element was on the left side
+            mergearr[k] = left[i] # write the left index i value in the mergearr on the appropiate position
+            i = i + 1 # increment the index i for the left side
+            k = k + 1 # increment the index k for the mergearr
+
+        while j < len(right): # Checking if any element was on the right side
+            mergearr[k] = right[j] # write the right index j value in the mergearr on the appropiate position
+            j = j + 1 # increment the index j for the right side
+            k = k + 1 # increment the index k for the mergearr
+
+
+#mergearr = [7,5,2,3,1]
+
+# call function here 
+#merge_sort(arr)
+#print(mergearr)
 
 #def main():  
 
@@ -76,6 +120,8 @@ elapsedtimes = []
 elapsedtimesbubblesortall = []
 elapsedtimesselectionsortall = []
 elapsedtimesinsertionsortall = []
+elapsedtimesquicksortall = []
+elapsedtimesmergesortall = []
 sampleindex = 0
 columnposition = 1
 
@@ -137,20 +183,60 @@ for i in samples: # loops through each sample size
         print("Total elapsed times" , elapsed_timetotal )
         print("Average running time is" , elapsed_timeaverage)
 
-    elapsedtimesinsertionsortall.append(elapsed_timeaverage)
+    elapsedtimesinsertionsortall.append(elapsed_timeaverage)    
     elapsedtimes.append(elapsed_timeaverage) # insert the average time in an Arr
     print("Elapsed time" , elapsedtimes)
+
+    # Runs through the Quick sorting function 
+    for run in sampleruns: 
+        quickarr = sample
+        start_time = time.time() # start time of the program count in nanosecond
+        quick_sort(quickarr) # calls the quick_sort function here
+        end_time = time.time() # end time of the program count in nanosecond
+        elapsed_time = round((end_time - start_time),3) # calculate the time the program runs in milli seconds with 3 decimal places 
+        print("The elapsed quick sort time is: " ,elapsed_time)
+        elapsed_timetotal = elapsed_timetotal + elapsed_time # calculate the total time of the all runs
+        elapsed_timeaverage = round(elapsed_timetotal / len(sampleruns) , 3) # calculate the average time of the all runs in milli seconds with 3 decimal places
+        #elapsedtimesbubblesort.append(elapsed_time)
+        #print("Elapsed times in ms are:" ,elapsedtimesbubblesort)
+        print("Total elapsed quick sort times" , elapsed_timetotal )
+        print("Average running quick sort time is" , elapsed_timeaverage)
+
+    elapsedtimesquicksortall.append(elapsed_timeaverage)
+    elapsedtimes.append(elapsed_timeaverage) # insert the average time in an Arr
+    print("Elapsed quick sort time" , elapsedtimes)
+
+    # Runs through the Merge sorting function 
+    for run in sampleruns: 
+        mergearr = sample
+        start_time = time.time() # start time of the program count in nanosecond
+        quick_sort(mergearr) # calls the quick_sort function here
+        end_time = time.time() # end time of the program count in nanosecond
+        elapsed_time = round((end_time - start_time),3) # calculate the time the program runs in milli seconds with 3 decimal places 
+        print("The elapsed quick sort time is: " ,elapsed_time)
+        elapsed_timetotal = elapsed_timetotal + elapsed_time # calculate the total time of the all runs
+        elapsed_timeaverage = round(elapsed_timetotal / len(sampleruns) , 3) # calculate the average time of the all runs in milli seconds with 3 decimal places
+        #elapsedtimesbubblesort.append(elapsed_time)
+        #print("Elapsed times in ms are:" ,elapsedtimesbubblesort)
+        print("Total elapsed merge sort times" , elapsed_timetotal )
+        print("Average running merge sort time is" , elapsed_timeaverage)
+
+    elapsedtimesmergesortall.append(elapsed_timeaverage)
+    elapsedtimes.append(elapsed_timeaverage) # insert the average time in an Arr
+    print("Elapsed merge sort time" , elapsedtimes)
 
     # Write a new column in the dataframe after every run
     df.insert(columnposition,str(samples[sampleindex]),elapsedtimes,True)
     sampleindex = sampleindex + 1
     columnposition = columnposition + 1
-    elapsedtimes = []
+    elapsedtimes = [] # clear the elapsedtimes array
     print(df)
 
     print(elapsedtimesbubblesortall)
     print(elapsedtimesselectionsortall)
     print(elapsedtimesinsertionsortall)
+    print(elapsedtimesquicksortall)
+    print(elapsedtimesmergesortall)
 
 # plot the Time Results from the Dataframe
 #plt.plot(data=df)
@@ -161,7 +247,11 @@ for i in samples: # loops through each sample size
 ##plt.scatter(samples,elapsedtimesbubblesortall,c="red",label="Bubble Sort")
 ##plt.scatter(samples,elapsedtimesselectionsortall,c="blue",label="Selection Sort")
 ##plt.scatter(samples,elapsedtimesinsertionsortall,c="green",label="Insertion Sort")
+plt.plot(samples,elapsedtimesbubblesortall,c="blue",label="Bubble Sort",marker = 'o',markersize=10)
+plt.plot(samples,elapsedtimesselectionsortall,c="orange",label="Selection Sort",marker = 'o',markersize=10)
 plt.plot(samples,elapsedtimesinsertionsortall,c="green",label="Insertion Sort",marker = 'o',markersize=10)
+plt.plot(samples,elapsedtimesquicksortall,c="red",label="Quick Sort",marker = 'o',markersize=10)
+plt.plot(samples,elapsedtimesmergesortall,c="grey",label="Merge Sort",marker = 'o',markersize=10)
 plt.xlabel("Samples")
 plt.ylabel("Running Time in ms")
 plt.legend()
