@@ -357,8 +357,8 @@ def main():
     df = pd.DataFrame({'Sample Size':["Bubble Sort","Selection Sort","Quick Sort","Merge Sort","Count Sort"]},index:=None)
 
     # Create an array with different sample sizes
-    samples = [100,200,500,1000,5000] 
-    #samples = [100,250,500,750,1000,1250,2500,3750,5000,10000,20000,40000,80000]
+    #samples = [100,200,500,1000] 
+    samples = [100,250,500,750,1000,1250,2500,3750,5000,10000,20000,40000,80000]
     #samples = [100,250,500,750,1000,1250,2500,3750,5000,10000,20000,30000,40000]
 
     # Create random numbers
@@ -424,7 +424,7 @@ def main():
         return quickarr
 
 
-    # Merger sort
+    # Merge sort
     # found this code on https://www.geeksforgeeks.org/merge-sort/ and adopted this to my purpose
     def merge_sort(mergearr):
         if len(mergearr)>1:
@@ -481,8 +481,8 @@ def main():
     
      
 
-    elapsed_timetotal = 0
-    elapsed_timeaverage = 0
+    #elapsed_timetotal = 0
+    #elapsed_timeaverage = 0
     elapsedtimes = []
     elapsedtimesbubblesortall = []
     elapsedtimesselectionsortall = []
@@ -600,48 +600,73 @@ def main():
         elapsedtimes = [] # clear the elapsedtimes array
         print(df)
     
+    
+    # Plot the Time Results from the Dataframe for Bubble Sort
+    fig1, ax1 = plt.subplots(1) 
+    ax1.plot(samples,elapsedtimesbubblesortall,c="blue",label="Bubble Sort",marker = 'o',markersize=10)    
+    ax1.set_xlabel("Input Size n")
+    ax1.set_ylabel("Running Time in ms (milliseconds)")
+    ax1.legend()
+    ax1.set_title("Bubble Sort \n Worst case O(n2)notation")
+    ax1.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
+    fig1.savefig("Bubble sort.png")
+    
 
-        # plot the Time Results from the Dataframe
-    plt.plot(samples,elapsedtimesbubblesortall,c="blue",label="Bubble Sort",marker = 'o',markersize=10)    
-    plt.xlabel("Samples")
-    plt.ylabel("Running Time in ms")
-    plt.legend()
-    plt.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
-    plt.savefig("Bubble sort.png")
+    # Plot the Time Results from the Dataframe for Selection Sort
+    fig2, ax2 = plt.subplots(1) 
+    ax2.plot(samples,elapsedtimesselectionsortall,c="orange",label="Selection Sort",marker = 'o',markersize=10)    
+    ax2.set_xlabel("Input Size n")
+    ax2.set_ylabel("Running Time in ms (milliseconds)")
+    ax2.legend()
+    ax2.set_title("Selection Sort \n Worst case O(n2)notation")
+    ax2.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
+    fig2.savefig("Selection sort.png")
 
-    '''
-    plt.plot(samples,elapsedtimesselectionsortall,c="orange",label="Selection Sort",marker = 'o',markersize=10)    
-    plt.xlabel("Samples")
-    plt.ylabel("Running Time in ms")
-    plt.legend()
-    plt.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
-    plt.savefig("Selection sort.png")
+    # Plot the Time Results from the Dataframe for Quick Sort
+    fig3, ax3 = plt.subplots(1)
+    ax3.plot(samples,elapsedtimesquicksortall,c="red",label="Quick Sort",marker = 'o',markersize=10)    
+    ax3.set_xlabel("Input Size n")
+    ax3.set_ylabel("Running Time in ms (milliseconds)")
+    ax3.legend()
+    ax3.set_title("Quick Sort \n Worst case O(n2)notation")
+    ax3.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
+    fig3.savefig("Quick sort.png")
 
-    plt.plot(samples,elapsedtimesquicksortall,c="red",label="Quick Sort",marker = 'o',markersize=10)    
-    plt.xlabel("Samples")
-    plt.ylabel("Running Time in ms")
-    plt.legend()
-    plt.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
-    plt.savefig("Quick sort.png")
+    # Plot the Time Results from the Dataframe for Merge Sort
+    fig4, ax4 = plt.subplots(1)
+    ax4.plot(samples,elapsedtimesmergesortall,c="grey",label="Merge Sort",marker = 'o',markersize=12)    
+    ax4.set_xlabel("Input Size n")
+    ax4.set_ylabel("Running Time in ms (milliseconds)")
+    ax4.legend()
+    ax4.set_title("Merge Sort \n Worst case O(n log n)notation")
+    ax4.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
+    fig4.savefig("Merge sort.png")
 
-    plt.plot(samples,elapsedtimesmergesortall,c="grey",label="Merge Sort",marker = 'o',markersize=12)    
-    plt.xlabel("Samples")
-    plt.ylabel("Running Time in ms")
-    plt.legend()
-    plt.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
-    plt.savefig("Merge sort.png")
+    # Plot the Time Results from the Dataframe for Count Sort
+    fig5, ax5 = plt.subplots(1)
+    ax5.plot(samples,elapsedtimescountsortall,c="yellow",label="Count Sort",marker = 'o',markersize=10)    
+    ax5.set_xlabel("Input Size n")
+    ax5.set_ylabel("Running Time in ms (milliseconds)")
+    ax5.legend()
+    ax5.set_title("Count Sort \n Worst case O(n + k)notation")
+    ax5.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
+    fig5.savefig("Count sort.png")
 
-    plt.plot(samples,elapsedtimescountsortall,c="yellow",label="Count Sort",marker = 'o',markersize=10)    
-    plt.xlabel("Samples")
-    plt.ylabel("Running Time in ms")
-    plt.legend()
-    plt.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)
-    plt.savefig("Count sort.png")
+    # Plot the Time Results from the Dataframe for Count Sort       
+    fig6, ax6 = plt.subplots(1)
+    ax6.plot(samples,elapsedtimesbubblesortall,c="blue",label="Bubble Sort",marker = 'o',markersize=10)
+    ax6.plot(samples,elapsedtimesselectionsortall,c="orange",label="Selection Sort",marker = 'o',markersize=10)
+    ax6.plot(samples,elapsedtimesquicksortall,c="red",label="Quick Sort",marker = 'o',markersize=10)
+    ax6.plot(samples,elapsedtimesmergesortall,c="grey",label="Merge Sort",marker = 'o',markersize=12)
+    ax6.plot(samples,elapsedtimescountsortall,c="yellow",label="Count Sort",marker = 'o',markersize=10)    
+    ax6.set_xlabel("Input Size n")
+    ax6.set_ylabel("Running Time in ms (milliseconds)")
+    ax6.legend()
+    ax6.set_title("Benchmark of time complexity for differnt\n Sorting algorithms")
+    ax6.grid(b=True,which='major',axis='both',linestyle='dotted', linewidth=1)   
+    fig6.savefig("Sorting.png")
 
-
-    plt.savefig("Sorting.png")
-
-    '''
+    
     plt.show()
     
 
